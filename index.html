@@ -6,6 +6,96 @@
 <title>ドパガキ診断</title>
 
 <style>
+
+/* ===== 質問画面デザイン ===== */
+
+#quiz {
+padding: 15px 5px;
+}
+
+#questionNumber {
+display: inline-block;
+padding: 8px 16px;
+color: #e9a5ff;
+background: #160b2b;
+border: 2px solid #a52cff;
+font-family: monospace;
+letter-spacing: 2px;
+box-shadow: 0 0 10px #8b20ff;
+}
+
+#quiz .progress {
+height: 8px;
+background: #211331;
+border: 1px solid #7430b8;
+border-radius: 0;
+}
+
+#quiz .progress-bar {
+background: linear-gradient(90deg, #a000ff, #ff4de1);
+box-shadow: 0 0 10px #d000ff;
+}
+
+#questionText {
+padding: 25px 20px;
+margin: 25px 0;
+background: #100820;
+border: 3px solid #a52cff;
+border-radius: 8px;
+color: #f1d9ff;
+font-size: 20px;
+line-height: 1.7;
+box-shadow: 0 0 15px #8b20ff;
+}
+
+#choices {
+display: flex;
+flex-direction: column;
+gap: 10px;
+}
+
+#choices .choice {
+min-height: 58px;
+margin: 0;
+padding: 12px 16px;
+background: #100820;
+border: 2px solid #7430b8;
+border-radius: 5px;
+color: #ead5ff;
+font-size: 15px;
+text-align: left;
+transition: 0.2s;
+}
+
+#choices .choice::before {
+content: "○";
+display: inline-block;
+margin-right: 12px;
+color: #d45aff;
+font-size: 20px;
+}
+
+#choices .choice.selected {
+background: linear-gradient(100deg, #7114c7, #35105c);
+border-color: #edbaff;
+color: white;
+box-shadow: 0 0 15px #b52cff;
+}
+
+#choices .choice.selected::before {
+content: "●";
+color: white;
+text-shadow: 0 0 8px white;
+}
+
+#nextButton {
+background: linear-gradient(90deg, #941cff, #d52cff);
+color: white;
+border: 2px solid #e9a5ff;
+border-radius: 5px;
+box-shadow: 0 0 12px #a52cff;
+}
+
 * {
   box-sizing: border-box;
 }
