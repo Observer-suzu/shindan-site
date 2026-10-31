@@ -369,6 +369,21 @@ padding: 35px;
 }
 }
 
+#result .result-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: -1;
+  pointer-events: none;
+}
+
+#result .result-content {
+  z-index: 1;
+}
+
 </style>
 </head>
 
@@ -405,6 +420,9 @@ padding: 35px;
 </section>
 
 <section id="result" class="hidden">
+  
+  <img id="resultImage" class="result-image" alt="診断結果のイラスト">
+    
   <div class="result-content">
 <h1>診断結果</h1>
 <div class="result-score" id="score"></div>
@@ -644,11 +662,8 @@ else if (score < 60) imageIndex = 2;
 else if (score < 80) imageIndex = 3;
 else imageIndex = 4;
 
-document.getElementById("result").style.setProperty(
-"--result-image",
-`url('${resultImages[imageIndex]}')`
-);
-
+document.getElementById("resultImage").src =
+  resultImages[imageIndex];
   const sums = [0,0,0,0];
   const counts = [0,0,0,0];
 
