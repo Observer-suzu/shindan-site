@@ -17,6 +17,40 @@ body {
   color: #ffffff;
   font-family: sans-serif;
 }
+/* ドパガキ診断・タイトル画面 */
+#start {
+  min-height: 650px;
+  padding: 300px 18px 25px;
+  position: relative;
+  background-image: url("./dopagaki-background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* 画像内に文字があるため元の文字は隠す */
+#start h1,
+#start .subtitle {
+  display: none;
+}
+
+/* 画像内のスタートボタンに実際のボタンを重ねる */
+#start button {
+  position: absolute;
+  left: 15%;
+  bottom: 9%;
+  width: 70%;
+  height: 65px;
+  margin: 0;
+  opacity: 0;
+}
+
+/* 注意書き */
+#start .small {
+  display: none;
+}
 
 .container {
   max-width: 600px;
