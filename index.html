@@ -141,9 +141,29 @@ body {
   }
 }
 
-/* 注意書き */
+/* タイトル画面の文字・注意書きを非表示 */
+#start h1,
+#start .subtitle,
 #start .small {
   display: none;
+}
+
+/* 画像内のボタン位置に透明なクリック領域を配置 */
+#start button {
+  position: absolute;
+  left: 15%;
+  bottom: 9%;
+  width: 70%;
+  height: 65px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: transparent;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 10;
 }
 
 .container {
