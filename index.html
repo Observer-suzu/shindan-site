@@ -25,28 +25,30 @@ body {
   aspect-ratio: 16 / 9;
   position: relative;
   background-image: url("./D3CDE156-AFC8-4536-9858-5E7512139FEE.png");
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 20px;
   overflow: hidden;
 }
 
-/* 画像内に文字があるため元の文字は隠す */
-#start h1,
-#start .subtitle {
-  display: none;
-}
+/* スマホ横向き */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  body {
+    padding: 5px;
+  }
 
-/* 画像内のスタートボタンに実際のボタンを重ねる */
-#start button {
-  position: absolute;
-  left: 15%;
-  bottom: 9%;
-  width: 70%;
-  height: 65px;
-  margin: 0;
-  opacity: 0;
+  .container {
+    padding: 5px;
+  }
+
+  #start {
+    width: 100%;
+    height: calc(100vh - 20px);
+    max-height: calc(100vh - 20px);
+    aspect-ratio: auto;
+    background-size: auto 100%;
+  }
 }
 
 /* 注意書き */
