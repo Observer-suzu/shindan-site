@@ -548,8 +548,7 @@ function showResult() {
   document.getElementById("result").classList.remove("hidden");
 
   const total = answers.reduce((a,b) => a+b, 0);
-
-  const score = Math.round((total - 20) / 80 * 100);
+  const score = Math.round((100 - total) / 80 * 100);
 
   document.getElementById("score").textContent =
     score + "%";
@@ -573,8 +572,8 @@ function showResult() {
   });
 
   const percentages = sums.map((sum,i) =>
-    Math.round((sum - counts[i]) / (counts[i] * 4) * 100)
-  );
+  Math.round((counts[i] * 5 - sum) / (counts[i] * 4) * 100)
+);
 
   const max = Math.max(...percentages);
   const typeIndex = percentages.indexOf(max);
