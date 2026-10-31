@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ドパガキ診断</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  background: #171525;
+  color: #ffffff;
+  font-family: sans-serif;
+}
+
+.container {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 25px;
+  background: #252238;
+  border-radius: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #ffcf70;
+  font-size: 30px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #c7c3d8;
+  line-height: 1.8;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 12px;
+  background: #ffbd59;
+  color: #211a2d;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.35;
+}
+
+.choice {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 15px;
+  background: #39334f;
+  color: white;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.choice.selected {
+  border-color: #ffbd59;
+  background: #514365;
+}
+
+.progress {
+  height: 9px;
+  background: #454057;
+  border-radius: 10px;
+  margin: 20px 0;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #ffbd59;
+  width: 0%;
+  transition: 0.3s;
+}
+
+.question {
+  font-size: 21px;
+  line-height: 1.7;
+  margin: 25px 0;
+}
+
+.number {
+  color: #ffcf70;
+  font-weight: bold;
+}
+
+.result-score {
+  font-size: 55px;
+  text-align: center;
+  color: #ffcf70;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.result-title {
+  text-align: center;
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+
+.result-description {
+  background: #39334f;
+  padding: 18px;
+  border-radius: 12px;
+  line-height: 1.8;
+}
+
+.bar-row {
+  margin: 18px 0;
+}
+
+.bar-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 7px;
+}
+
+.bar {
+  height: 12px;
+  background: #454057;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: #ffbd59;
+  border-radius: 10px;
+}
+
+.small {
+  color: #aaa5bd;
+  font-size: 12px;
+  line-height: 1.7;
+  margin-top: 25px;
+}
+
+.hidden {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<section id="start">
+  <h1>ドパガキ診断</h1>
+  <p class="subtitle">
+    あなたの脳は刺激を求めすぎている？<br>
+    20の質問から、あなたのドパガキ度を暴いて見せます😎
+  </p>
+  <button onclick="startQuiz()">診断を始める</button>
+  <p class="small">
+    ※この診断は娯楽目的のオリジナル診断です。
+    医学的・心理学的な診断を行うものではありません。😈
+  </p>
+</section>
+
+<section id="quiz" class="hidden">
+  <div class="number" id="questionNumber"></div>
+  <div class="progress">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <div class="question" id="questionText"></div>
+
+  <div id="choices"></div>
+
+  <button id="nextButton" onclick="nextQuestion()" disabled>
+    次へ
+  </button>
+</section>
+
+<section id="result" class="hidden">
+  <h1>診断結果</h1>
+  <div class="result-score" id="score"></div>
+  <div class="result-title" id="rank"></div>
+
+  <div class="result-description">
+    <strong id="type"></strong>
+    <p id="description"></p>
+  </div>
+
+  <h2>あなたの傾向</h2>
+  <div id="bars"></div>
+
+  <p class="small">
+    ※この結果は回答に基づく娯楽的な指標です。
+    実際の脳内ドーパミン量や依存症の有無を示すものではありません。🤪
+  </p>
+
+  <button onclick="location.reload()">もう一度診断する</button>
+</section>
+
+</div>
+
+<script>
+
+const questions = [
+
+{
+  text:"1秒でも暇な時は、とりあえずスマホを開いてしまう。",
+  category:0
+},
+{
+  text:"YouTube ･ 動画配信サービスは、1.5倍速以上で見ないと話が入ってこない。",
+  category:1
+},
+{
+  text:"動画を選んだら、とりあえず本編を見る前にコメント欄を確認するまでがマスト。",
+  category:1
+},
+{
+  text:"「〇〇な〇〇3選！」系のショート動画は、結果だけ見る or コメント欄でネタバレを確認するのが常識。",
+  category:1
+},
+{
+  text:"動画を見ながら、さらに別端末で動画を見る。あるいはゲームしてマルチタスクするのは当たり前。",
+  category:0
+},
+{
+  text:"ショート動画を1本だけ見ると言ったな…あれは嘘だ😬ふつーに数時間が経ってるわ。。。まだ行けるか……",
+  category:1
+},
+{
+  text:"初手動画の広告入ると、一旦消してもっかい動画再生して広告スキップするワザップは歴史的快挙だろマジで。",
+  category:2
+},
+{
+  text:"ソシャゲのガチャは演出だけ見て確定とかなかったらスキップ。結果が出る瞬間以外いらねぇ。",
+  category:2
+},
+{
+  text:"通知が来ると、なんかしてても確認。だって社会人の常識でしょ？ww",
+  category:2
+},
+{
+  text:"「マジでこれだけだから！」を何度繰り返して今に至るのか。今日も空は明るいです🔅",
+  category:2
+},
+{
+  text:"動画の冒頭退屈だと滅入るよな。最後まで見ずに別の動画見るもん。",
+  category:3
+},
+{
+  text:"長文読むとき結論とか重要そうな部分だけを探す時短。結果見つけられんくて逆に時間かかるけどな（）",
+  category:3
+},
+{
+  text:"勉強とか作業中、ガチ無意識で関係のないアプリを開いてることない？。",
+  category:3
+},
+{
+  text:"食事中とか移動中、何かしている時でもなんかしたい。常になんかしたい。",
+  category:0
+},
+{
+  text:"静かな場所で何もせずに過ごす、ガキの頃はできたんですけどね。",
+  category:0
+},
+{
+  text:"刺さる新作ゲームとかアプリあると、今やっているゲーム放置してでもやるくない？。例:モンハン アウトランダーズ",
+  category:0
+},
+{
+  text:"動画開いた瞬間、別の動画探すよね。👀",
+  category:3
+},
+{
+  text:"欲しいもの見つけると、なんか購入押してるんよな。",
+  category:2
+},
+{
+  text:"寝る直前にスマホを触り始め、気づけば予定より遅く寝ている。って項目にしようとしたけどそもそも常にスマホ見てるってな笑笑",
+  category:1
+},
+{
+  text:"なんか待ってるあるやん？その時間長いと、別のことをして時間を潰すけどこれドパガキ関係なくない？。",
+  category:3
+}
+
+];
+
+const categories = [
+  "刺激追求傾向",
+  "コンテンツ消費傾向",
+  "即時報酬傾向",
+  "集中・退屈耐性"
+];
+
+const types = [
+  {
+    name:"刺激追求型",
+    description:"犬みたいやねw 常に新しい刺激を求めるタイプ。何も起きない時間は退屈そのもの。脳内で次のイベントを勝手に開催している可能性があります。ガチガチ、チャッピーが言ってた。"
+  },
+  {
+    name:"コンテンツ爆食型",
+    description:"はい。暴食暴食。大罪かな？動画・SNS・ショート動画を次々と消費するタイプ。情報を得る速度は一級品。ただし、何を見たか覚えているかは別問題。いっそスマホと結婚すれば？"
+  },
+  {
+    name:"即時報酬型",
+    description:"欲しいと思ったら今すぐ欲しいタイプ。ガチャの演出、通知、購入ボタン……あなたを誘惑するものは世の中に多すぎます。目潰せば解決やね💕︎"
+  },
+  {
+    name:"集中力迷子型",
+    description:"一つのことに集中していたはずが、いつの間にか別のことをしているタイプ。気づけば目的地とは違う場所にたどり着いています。どうせマルチタスクとか言ってるんでしょ。ただのドパガキ☺️"
+  }
+];
+
+let current = 0;
+let answers = Array(questions.length).fill(0);
+
+function startQuiz() {
+  document.getElementById("start").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = questions[current];
+
+  document.getElementById("questionNumber").textContent =
+    "QUESTION " + (current + 1) + " / 20";
+
+  document.getElementById("questionText").textContent = q.text;
+
+  document.getElementById("progressBar").style.width =
+    ((current) / questions.length * 100) + "%";
+
+  const labels = [
+    "がちそれな",
+    "それな",
+    "どっちでもないわボケ！",
+    "6割正解",
+    "なんも当たっとらんわ！〇すぞ！"
+  ];
+
+  const area = document.getElementById("choices");
+  area.innerHTML = "";
+
+  labels.forEach((label, index) => {
+    const button = document.createElement("button");
+    button.className = "choice";
+    button.textContent = (index + 1) + "．" + label;
+
+    if (answers[current] === index + 1) {
+      button.classList.add("selected");
+    }
+
+    button.onclick = () => {
+      answers[current] = index + 1;
+
+      document.querySelectorAll(".choice").forEach(el => {
+        el.classList.remove("selected");
+      });
+
+      button.classList.add("selected");
+      document.getElementById("nextButton").disabled = false;
+    };
+
+    area.appendChild(button);
+  });
+
+  document.getElementById("nextButton").disabled =
+    answers[current] === 0;
+
+  document.getElementById("nextButton").textContent =
+    current === 19 ? "診断結果を見る" : "次へ";
+}
+
+function nextQuestion() {
+  if (answers[current] === 0) return;
+
+  if (current < questions.length - 1) {
+    current++;
+    showQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+
+  const total = answers.reduce((a,b) => a+b, 0);
+
+  const score = Math.round((total - 20) / 80 * 100);
+
+  document.getElementById("score").textContent =
+    score + "%";
+
+  let rank = "";
+
+  if (score < 20) rank = "🌱 初心者ドパガキャー";
+  else if (score < 40) rank = "🐣 ドパガキ見習い";
+  else if (score < 60) rank = "📱 ドパ凡人ガキ";
+  else if (score < 80) rank = "⚡ 熟成ドパ大人";
+  else rank = "👑 重度ドパ老害";
+
+  document.getElementById("rank").textContent = rank;
+
+  const sums = [0,0,0,0];
+  const counts = [0,0,0,0];
+
+  questions.forEach((q,i) => {
+    sums[q.category] += answers[i];
+    counts[q.category]++;
+  });
+
+  const percentages = sums.map((sum,i) =>
+    Math.round((sum - counts[i]) / (counts[i] * 4) * 100)
+  );
+
+  const max = Math.max(...percentages);
+  const typeIndex = percentages.indexOf(max);
+
+  document.getElementById("type").textContent =
+    "あなたは「" + types[typeIndex].name + "」！";
+
+  document.getElementById("description").textContent =
+    types[typeIndex].description;
+
+  const bars = document.getElementById("bars");
+  bars.innerHTML = "";
+
+  categories.forEach((name,i) => {
+    bars.innerHTML += `
+      <div class="bar-row">
+        <div class="bar-label">
+          <span>${name}</span>
+          <strong>${percentages[i]}%</strong>
+        </div>
+        <div class="bar">
+          <div class="bar-fill" style="width:${percentages[i]}%"></div>
+        </div>
+      </div>
+    `;
+  });
+
+  document.getElementById("progressBar").style.width = "100%";
+}
+
+</script>
+
+</body>
+</html>
