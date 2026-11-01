@@ -7,6 +7,8 @@
 
 <style>
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800;900&display=swap');
+
 /* ===== 質問画面デザイン ===== */
 
 #quiz {
@@ -19,7 +21,7 @@ padding: 8px 16px;
 color: #e9a5ff;
 background: #160b2b;
 border: 2px solid #a52cff;
-font-family: monospace;
+font-family: 'Noto Sans JP', sans-serif;
 letter-spacing: 2px;
 box-shadow: 0 0 10px #8b20ff;
 }
@@ -385,6 +387,137 @@ padding: 35px;
 }
 
 </style>
+
+/* ===== 結果画面デザイン改良 ===== */
+
+/* 結果画面の文字 */
+#result .result-content {
+  background: rgba(13, 9, 25, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 24px 16px;
+}
+
+/* 診断結果の見出し */
+#result h1 {
+  color: #ffcf70;
+  font-size: 23px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-shadow: 0 0 12px rgba(255, 180, 100, 0.5);
+}
+
+/* 説明文フレーム */
+#result .result-description {
+  position: relative;
+  background: rgba(45, 33, 65, 0.94);
+  border: 1px solid rgba(226, 112, 255, 0.8);
+  border-radius: 10px;
+  padding: 20px 17px;
+  margin-top: 18px;
+  line-height: 1.9;
+  font-size: 14px;
+  color: #f7efff;
+  box-shadow:
+    0 0 8px rgba(195, 65, 255, 0.25),
+    inset 0 0 15px rgba(150, 60, 220, 0.08);
+}
+
+/* 説明文の見出し */
+#result .result-description strong {
+  display: block;
+  color: #ffb8ed;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+/* 説明文の本文 */
+#result .result-description p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* カテゴリー見出し */
+#result h2 {
+  font-size: 17px;
+  font-weight: 800;
+  margin-top: 28px;
+  margin-bottom: 20px;
+  color: #ffcfef;
+  letter-spacing: 1px;
+}
+
+/* カテゴリー別ゲージ */
+#result .bar {
+  height: 12px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+#result .bar-fill {
+  height: 100%;
+  border-radius: 20px;
+  transition: width 0.6s ease;
+}
+
+/* ① 刺激追求：ピンク */
+#result .bar-fill.category-0 {
+  background: linear-gradient(90deg, #ff6bba, #ffb0df);
+  box-shadow: 0 0 10px #ff6bba;
+}
+
+/* ② コンテンツ消費：シアン */
+#result .bar-fill.category-1 {
+  background: linear-gradient(90deg, #35d9ed, #9cf5ff);
+  box-shadow: 0 0 10px #35d9ed;
+}
+
+/* ③ 即時報酬：イエロー */
+#result .bar-fill.category-2 {
+  background: linear-gradient(90deg, #ffc247, #fff0a3);
+  box-shadow: 0 0 10px #ffc247;
+}
+
+/* ④ 注意・退屈：パープル */
+#result .bar-fill.category-3 {
+  background: linear-gradient(90deg, #a879ff, #d8baff);
+  box-shadow: 0 0 10px #a879ff;
+}
+
+/* カテゴリー名と数値 */
+#result .bar-label {
+  font-size: 13px;
+  font-weight: 600;
+  gap: 8px;
+}
+
+#result .bar-label strong {
+  font-size: 16px;
+  white-space: nowrap;
+  color: #ffffff;
+}
+
+/* 注意書き */
+#result .small {
+  font-size: 11px;
+  line-height: 1.8;
+  color: #c7bfd8;
+}
+
+/* 結果画面のボタン */
+#result button {
+  border: 1px solid #e9a5ff;
+  border-radius: 8px;
+  background: linear-gradient(100deg, #57217c, #a42c9f);
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(202, 65, 255, 0.3);
+}
+
 </head>
 
 <body>
@@ -704,7 +837,7 @@ const sums = [0,0,0,0];
           <strong>${percentages[i]}%</strong>
         </div>
         <div class="bar">
-          <div class="bar-fill" style="width:${percentages[i]}%"></div>
+         <div class="bar-fill category-${i}" style="width:${percentages[i]}%"></div>
         </div>
       </div>
     `;
