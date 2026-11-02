@@ -463,12 +463,44 @@ button,
 }
 
 </style>
+/* ===== オレンジ色を紫に統一 ===== */
+
+/* 共通ボタン */
+button {
+  background: linear-gradient(90deg, #57217c, #8e35b5);
+  color: white;
+}
+
+/* 選択済みの選択肢 */
+.choice.selected {
+  border-color: #d9a0ff;
+  background: #51247a;
+}
+
+/* 進捗ゲージ */
+.progress-bar {
+  background: linear-gradient(90deg, #8e35d5, #d45aff);
+}
+
+/* 質問番号 */
+.number {
+  color: #d9a0ff;
+}
+
+/* 見出し */
+h1 {
+  color: #e9c5ff;
+  text-shadow: 0 0 8px rgba(170, 80, 255, 0.35);
+}
+
+/* 結果画面のスコア */
+.result-score {
+  color: #e9c5ff;
+}
 
 </head>
 
 <body>
-
-<div class="bar-fill category-${i}" style="width:${percentages[i]}%">
 
 <section id="start">
   <h1>ドパガキ診断</h1>
