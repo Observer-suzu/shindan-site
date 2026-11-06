@@ -562,7 +562,7 @@ h1 {
   ※この結果は回答に基づく娯楽的な指標です。
   実際の脳内ドーパミン量や依存症の有無を示すものではありません。🤪
 </p>
-<button onclick="location.reload()">もう一度診断する</button>
+<button onclick="showRetryMessage()">もう一度診断する</button>
   </div>
 </section>
 
@@ -693,6 +693,21 @@ function startQuiz() {
   document.getElementById("start").classList.add("hidden");
   document.getElementById("quiz").classList.remove("hidden");
   showQuestion();
+}
+
+function showRetryMessage() {
+  alert("まだ現実を受け入れられないの？😢😢\n君は立派な「ドパガキ」なんだよ😭\nでももう一度だけ……チャンスをあげるね😈");
+
+  current = 0;
+  answers = [];
+  showQuestion();
+
+  document.getElementById("result").style.display = "none";
+  document.getElementById("quiz").style.display = "block";
+}
+
+  document.getElementById("result").style.display = "none";
+  document.getElementById("quiz").style.display = "block";
 }
 
 function showBackMessage() {
