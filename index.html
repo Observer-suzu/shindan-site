@@ -699,15 +699,12 @@ function showRetryMessage() {
   alert("まだ現実を受け入れられないの？😢😢\n君は立派な「ドパガキ」なんだよ😭\nでももう一度だけ……チャンスをあげるね😈");
 
   current = 0;
-  answers = [];
+  answers = Array(questions.length).fill(0);
+
+  document.getElementById("result").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+
   showQuestion();
-
-  document.getElementById("result").style.display = "none";
-  document.getElementById("quiz").style.display = "block";
-}
-
-  document.getElementById("result").style.display = "none";
-  document.getElementById("quiz").style.display = "block";
 }
 
 function showBackMessage() {
