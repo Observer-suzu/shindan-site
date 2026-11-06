@@ -497,6 +497,14 @@ h1 {
   color: #e9c5ff;
 }
 
+#backButton {
+  background: linear-gradient(90deg, #351044, #612477);
+  color: #e9c5ff;
+  border: 1px solid #a879ff;
+  box-shadow: 0 0 8px rgba(168, 121, 255, 0.3);
+  margin-top: 8px;
+}
+
 </style>
 
 </head>
@@ -529,6 +537,11 @@ h1 {
   <button id="nextButton" onclick="nextQuestion()" disabled>
     次へ
   </button>
+  
+  <button id="backButton" type="button" onclick="showBackMessage()">
+    戻る
+  </button>
+
 </section>
 
 <section id="result" class="hidden">
@@ -682,6 +695,9 @@ function startQuiz() {
   showQuestion();
 }
 
+function showBackMessage() {
+  alert("戻れると思った？ドパガキに過去を振り返る権利は無いよ！一生悔いてね💕︎🥰");
+}
 function showQuestion() {
   const q = questions[current];
 
