@@ -710,27 +710,6 @@ function startQuiz() {
   showQuestion();
 }
 
-async function saveResultImage() {
-  const resultArea = document.getElementById("result");
-
-  try {
-    const canvas = await html2canvas(resultArea, {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: "#08040B"
-    });
-
-    const link = document.createElement("a");
-    link.download = "ドパガキ診断結果.png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
-
-  } catch (error) {
-    alert("画像の保存に失敗しちゃった！もう一度試してね！");
-    console.error(error);
-  }
-}
-
 function showRetryMessage() {
   alert("まだ現実を受け入れられないの？😢😢\n君は立派な「ドパガキ」なんだよ😭\nでももう一度だけ……チャンスをあげるね😈");
 
@@ -755,6 +734,17 @@ async function saveResultImage() {
   }
 }
 
+function showRetryMessage() {
+  alert("まだ現実を受け入れられないの？😢😢\n君は立派な「ドパガキ」なんだよ😭\nでももう一度だけ……チャンスをあげるね😈");
+
+  current = 0;
+  answers = Array(questions.length).fill(0);
+
+  document.getElementById("result").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+
+  showQuestion();
+}
 function showBackMessage() {
   alert("戻れると思った？ドパガキに過去を振り返る権利は無いよ！一生悔いてね💕︎🥰");
 }
